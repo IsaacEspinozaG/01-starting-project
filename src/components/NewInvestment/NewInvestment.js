@@ -1,16 +1,21 @@
 import React, { useState } from "react";
-import "./NewInvestment.css";
-const NewInvestment = () => {
-  const initialUserInput = {
-    "current-savings": 10000,
-    "yearly-contribution": 1200,
-    "expected-return": 7,
-    duration: 10,
-  };
+import classes from './NewInvestment.module.css';
+
+const initialUserInput = {
+  "current-savings": 10000,
+  "yearly-contribution": 1200,
+  "expected-return": 7,
+  duration: 10,
+};
+
+const NewInvestment = (props) => {
+
   const [userInput, setUserInput] = useState(initialUserInput);
 
   const investmentSubmitHandler = (e) => {
     e.preventDefault();
+
+    props.onCalculate(userInput);
   };
 
   const resetHandler = () => {
@@ -19,13 +24,13 @@ const NewInvestment = () => {
 
   const inputChangeHandler = (input, value) => {
     setUserInput((prevInput) => {
-      return { ...prevInput, [input]: value };
+      return { ...prevInput, [input]: +value };
     });
   };
 
   return (
-    <form className="form" onSubmit={investmentSubmitHandler}>
-      <div className="input-group">
+    <form className={classes.form} onSubmit={investmentSubmitHandler}>
+      <div className={classes['input-group']}>
         <p>
           <label htmlFor="current-savings">Current Savings ($)</label>
           <input
@@ -49,7 +54,7 @@ const NewInvestment = () => {
           />
         </p>
       </div>
-      <div className="input-group">
+      <div className={classes['input-group']}>
         <p>
           <label htmlFor="expected-return">
             Expected Interest (%, per year)
@@ -73,11 +78,11 @@ const NewInvestment = () => {
           />
         </p>
       </div>
-      <p className="actions">
-        <button type="reset" className="buttonAlt" onClick={resetHandler}>
+      <p className={classes.actions}>
+        <button type="reset" className={classes.buttonAlt} onClick={resetHandler}>
           Reset
         </button>
-        <button type="submit" className="button">
+        <button type="submit" className={classes.button}>
           Calculate
         </button>
       </p>
